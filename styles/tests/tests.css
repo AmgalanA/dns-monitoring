@@ -1,0 +1,38 @@
+#tests-container {
+    display: table;
+    width: 100%;
+    border-collapse: separate;
+    margin: 10px 0;
+    color: black;
+}
+
+#tests-container .row {
+    display: table-row;
+    width: 100%;
+}
+
+.test-div {
+    display: table-cell;
+    padding: 0 25px;
+    vertical-align: middle;
+    width: 15%;
+    border: 20px solid transparent;
+    border-width: 0 20px 20px 0;
+    background-clip: padding-box;
+}
+
+.test-div .heading-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+}
+
+.test-div .heading-container h3 {
+    font-size: 30px;
+}
+
+.test-div p {
+    font-size: 25px;
+    margin-top: -10px;
+}

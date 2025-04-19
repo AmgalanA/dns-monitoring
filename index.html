@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/tests/tests.css">
+  <link rel="stylesheet" href="styles/areas/areas.css">
+  <title>DNS Monitor</title>
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo">InData DNS Monitor</div>
+    <div class="buttons">
+      <!-- <button class="button">Добавить зону</button> -->
+      <!-- <button class="button">Обновить</button> -->
+      <!-- <button class="button">Выйти</button> -->
+    </div>
+  </div>
+
+  <div id="monitoring" class="tab-content active">
+    <div class="main-content">
+      <h1>DNS Зоны</h1>
+
+      <div id="tests-container">
+
+      </div>
+
+      <div id="area-info-container">
+        <div id="areas-container">
+        </div>
+        <div id="active-area-wrapper">
+        </div>
+      </div>
+
+
+      <div class="container" id="dns-container">
+   
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Статус</p>
+  </div>
+</body>
+
+<script type="module" src="scripts/app.js"></script>
+
+</html>
