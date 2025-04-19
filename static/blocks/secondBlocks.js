@@ -195,13 +195,6 @@ const secondBlocks = {
                                     "ID": "11-887144-14"
                                 }
                             },
-                            {
-                                "Name": "UDP/RTT",
-                                "ProbeSource": {
-                                    "Name": "NS udp/rtt",
-                                    "ID": "11-887144-14"
-                                }
-                            }
                         ]
                     },
                     {

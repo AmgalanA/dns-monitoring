@@ -1,20 +1,30 @@
 import { showTests } from "./tests/tests.js";
 import { showAreas } from "./areas/areas.js";
-import { blocks } from "../static/blocks.js";
-import { secondBlocks } from "../static/secondBlocks.js";
-import { thirdBlocks } from "../static/thirdBlocks.js"
+import { blocks } from "../static/blocks/blocks.js";
+import { secondBlocks } from "../static/blocks/secondBlocks.js";
+import { thirdBlocks } from "../static/blocks/thirdBlocks.js"
+import { forthBlocks } from "../static/blocks/forthBlocks.js";
 
 function fetchZones() {
-    const res = Math.floor(Math.random() * 3)
-    if (res === 0) {
-        showTests(blocks)
-        showAreas(blocks)
-    } else if (res == 1) {
-        showTests(secondBlocks)
-        showAreas(secondBlocks)
-    } else {
-        showTests(thirdBlocks)
-        showAreas(thirdBlocks)
+    const res = Math.floor(Math.random() * 4)
+
+    switch (res) {
+        case 0:
+            showTests(blocks)
+            showAreas(blocks)
+            break;
+        case 1:
+            showTests(secondBlocks)
+            showAreas(secondBlocks)
+            break;
+        case 2:
+            showTests(thirdBlocks)
+            showAreas(thirdBlocks)
+            break;
+        case 3:
+            showTests(forthBlocks)
+            showAreas(forthBlocks)
+            break;
     }
 
     return 0;
