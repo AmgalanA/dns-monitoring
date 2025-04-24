@@ -30,7 +30,7 @@ const showAreas = (blocks) => {
 
             localStorage.setItem('active-zone', areaDiv.textContent)
 
-            showActiveArea()
+            showActiveArea(blocks)
         })
 
         areasContainer.appendChild(areaDiv)
@@ -39,6 +39,7 @@ const showAreas = (blocks) => {
 }
 
 const getAreaInfoByName = (name, blocks) => {
+    console.log("BLOCKS: ", blocks, name)
     for (let i = 0; i < blocks.MainBlock.Sections.length; i++) {
         if (name === blocks.MainBlock.Sections[i].GeneralName) {
             return blocks.MainBlock.Sections[i]
