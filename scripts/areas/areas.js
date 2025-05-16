@@ -13,7 +13,8 @@ const showAreas = (blocks) => {
         if (i === 0) {
             areaDiv.id = 'area-active'
         }
-        if (i === blocks.MainBlock.Sections.length - 1) {
+
+        if (i === blocks.MainBlock.Sections.length - 1 && i !== 0) {
             areaDiv.id = 'area-last'
         }
 
@@ -39,7 +40,6 @@ const showAreas = (blocks) => {
 }
 
 const getAreaInfoByName = (name, blocks) => {
-    console.log("BLOCKS: ", blocks, name)
     for (let i = 0; i < blocks.MainBlock.Sections.length; i++) {
         if (name === blocks.MainBlock.Sections[i].GeneralName) {
             return blocks.MainBlock.Sections[i]
