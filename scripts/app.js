@@ -1,12 +1,9 @@
 import { showTests } from "./tests/tests.js";
 import { showAreas } from "./areas/areas.js";
-import { blocks } from "../static/blocks/blocks.js";
-import { secondBlocks } from "../static/blocks/secondBlocks.js";
-import { thirdBlocks } from "../static/blocks/thirdBlocks.js"
-import { forthBlocks } from "../static/blocks/forthBlocks.js";
-import { newBlocks } from "../static/blocks/newBlocks.js";
 
 import { mainInterval } from "./timer/timer.js";
+
+import { getData } from "./data/get-data.js";
 
 // Main Variables
 let counter = 0
@@ -19,10 +16,13 @@ function getFromLocalStorage() {
     return localStorage.getItem("DATA")
 }
 
-function fetchZones() {
+async function fetchZones() {
     const res = Math.floor(Math.random() * 4)
 
-    const data = JSON.parse(getFromLocalStorage())
+    // const data = JSON.parse(getFromLocalStorage())
+
+    const data = await getData()
+    console.log(data)
 
     // if (data) {
     //     showTests(blocks)
@@ -52,8 +52,8 @@ function fetchZones() {
     //     }
     // }
 
-    showTests(newBlocks)
-    showAreas(newBlocks)
+    // showTests(newBlocks)
+    // showAreas(newBlocks)
 
 
     return 0;

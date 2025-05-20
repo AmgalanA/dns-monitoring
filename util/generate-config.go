@@ -20,11 +20,11 @@ type BackConfig struct {
 }
 
 type Test struct {
-	TestID   string    `json:"test_id"`
-	ZoneName string    `json:"zone_name"`
-	ServerIP string    `json:"server_ip"`
+	TestID   string    `json:"TestId"`
+	ZoneName string    `json:"DomainName"`
+	ServerIP string    `json:"ServerIP"`
 	Interval string    `json:"interval"`
-	TestType string    `json:"test_type"`
+	TestType string    `json:"QueryType"`
 	SOATest  *SOATest  `json:"soa_test,omitempty"`
 	NSTest   *NSTest   `json:"ns_test,omitempty"`
 	ATest    *ATest    `json:"a_test,omitempty"`
