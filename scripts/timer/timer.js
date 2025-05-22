@@ -36,11 +36,11 @@ const mainInterval = () => setInterval(() => {
     .filter(([testId, everyXTicks]) => counter % everyXTicks === 0)
     .map(([testId]) => testId);
 
-    if (testsToFetch.length > 0) {
-        fetchTestResults(testsToFetch)
-          .then(updateUI)
-          .catch(handleError);
-      }
+    // if (testsToFetch.length > 0) {
+    //     fetchTestResults(testsToFetch)
+    //       .then(updateUI)
+    //       .catch(handleError);
+    //   }
 
     if (counter >= 60) counter = 0;
 }, minInterval * 1000)

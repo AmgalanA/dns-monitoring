@@ -1,43 +1,55 @@
-{
-    "tests": [
-      {
-        "test_id": "example-com-soa",
-        "domain_name": "example.com",
-        "server_ip": "199.43.135.53",
-        "interval": 5,
-          "test_type": "soa",
-        "soa_test": {
-          "expected_soa": {
-            "primary_ns": "ns.example.com.",
-            "responsible_email": "hostmaster.example.com.",
-            "serial": 2023101001,
-            "refresh": 7200,
-            "retry": 3600,
-            "expire": 1209600,
-            "minimum": 3600
-          }
-        }
-      },
-      {
-        "test_id": "example-com-ns",
-        "domain_name": "example.com",
-        "server_ip": "199.43.135.53",
-        "interval": 5,
-          "test_type": "ns",
-        "ns_test": {
-          "expected_ns": "ns1.example.com."
-        }
-      },
-      {
-        "test_id": "example-com-a",
-        "domain_name": "example.com",
-        "server_ip": "199.43.135.53",
-        "interval": 5,
-          "test_type": "a",
-        "a_test": {
-          "expected_a": ["96.7.128.198"]
-        }
-      }
-    ]
-  }
-  
+
+[
+    {
+        "TestID": "example-com-soa",
+        "Status": "Failed",
+        "DomainName": "example.com",
+        "QueryType": "soa",
+        "ServerIP": "199.43.135.53",
+        "Records": {
+            "email": "noc.dns.icann.org.",
+            "expire": "1209600",
+            "minttl": "3600",
+            "ns": "ns.icann.org.",
+            "refresh": "7200",
+            "retry": "3600",
+            "serial": "2025011649"
+        },
+        "ResponseTime": 119090739,
+        "Error": "SOA record did not match expected values"
+    },
+    {
+        "TestID": "example-com-a",
+        "Status": "Failed",
+        "DomainName": "example.com",
+        "QueryType": "a",
+        "ServerIP": "199.43.135.53",
+        "Records": {
+            "a": [
+                "23.192.228.80",
+                "23.192.228.84",
+                "23.215.0.136",
+                "23.215.0.138",
+                "96.7.128.175",
+                "96.7.128.198"
+            ]
+        },
+        "ResponseTime": 125513848,
+        "Error": "A records did not match any expected values"
+    },
+    {
+        "TestID": "example-com-ns",
+        "Status": "Failed",
+        "DomainName": "example.com",
+        "QueryType": "ns",
+        "ServerIP": "199.43.135.53",
+        "Records": {
+            "ns": [
+                "a.iana-servers.net.",
+                "b.iana-servers.net."
+            ]
+        },
+        "ResponseTime": 119790360,
+        "Error": "NS record did not match expected value"
+    }
+]

@@ -14,7 +14,7 @@ const showTests = (blocks) => {
             const testDiv = document.createElement('div');
             testDiv.className = 'test-div';
 
-            if (test.success === true) {
+            if (test.success === true || test.success === "true") {
                 testDiv.style.backgroundColor = '#08fc64';
             } else {
                 testDiv.style.backgroundColor = '#ff6464';
