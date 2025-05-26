@@ -119,9 +119,9 @@ const getData = async () => {
                         "IP": data.ServerIP,
                         "Role": "",
                         "Probes": [{
-                            "Name": "NS",
+                            "Name": "NS: " + ns,
                             "ProbeSource": {
-                                "Name": "NS",
+                                "Name": ns,
                                 "ID": data.TestID,
                                 "interval": data.Interval || "5"
                             }
@@ -131,6 +131,52 @@ const getData = async () => {
                     section["Parameters"].push(newParameter)
                 })
             }
+
+            if (data.QueryType === "a") {
+                data.Records.a.map(a => {
+                    let newParameter = {
+                        "GeneralName": a,
+                        "IP": data.ServerIP,
+                        "Role": "",
+                        "Probes": [{
+                            "Name": "A: " + a,
+                            "ProbeSource": {
+                                "Name": a,
+                                "ID": data.TestID,
+                                "interval": data.Interval || "5"
+                            }
+                        }]
+                    }
+
+                    section["Parameters"].push(newParameter)
+                })
+            }
+
+            if (data.QueryType === "soa") {
+                let name = ""
+
+                Object.values(data.Records).map(soa => {
+                    name = name + soa
+                })
+
+                let newParameter = {
+                    "GeneralName": name,
+                    "IP": data.ServerIP,
+                    "Role": "",
+                    "Probes": [{
+                        "Name": "SOA",
+                        "ProbeSource": {
+                            "Name": name,
+                            "ID": data.TestID,
+                            "interval": data.Interval || "5"
+                        }
+                    }]
+                }
+                
+                section["Parameters"].push(newParameter)
+            }
+
+            console.log(data)
         })
 
         jsonBlock["MainBlock"]["Sections"].push(section)

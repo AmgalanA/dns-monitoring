@@ -21,12 +21,12 @@ function getFromLocalStorage() {
 async function fetchZones() {
     const res = Math.floor(Math.random() * 4)
 
-    // let data = JSON.parse(getFromLocalStorage())
+    let data = JSON.parse(getFromLocalStorage())
 
-    // if (!data) {
-    let data = await getData()
-    saveToLocalStorage(data)
-    // }
+    if (!data) {
+        let data = await getData()
+        saveToLocalStorage(data)
+    }
 
     // if (data) {
     //     showTests(blocks)

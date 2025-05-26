@@ -55,42 +55,51 @@ const showActiveArea = (blocks) => {
     const areaInfoContainer = document.getElementById('active-area-wrapper')
     areaInfoContainer.innerHTML = ''
 
-    for (let i = 0; i < activeAreaInfo.Parameters.length; i++) {
-        const activeAreaContaier = document.createElement('div')
-        activeAreaContaier.className = 'active-area-container'
-        const server = activeAreaInfo.Parameters[i]
+    for (let i = 0; i < activeAreaInfo.Parameters.length; i+=5) {
 
-        const activeAreaHeading = document.createElement('h1')
-        activeAreaHeading.textContent = server.IP + " " + server.Role
+        const servers = activeAreaInfo.Parameters.slice(i, i + 5)
 
-        const recordsContainer = document.createElement('div')
-        recordsContainer.className = 'records-container'
+        const row = document.createElement("div")
+        row.className = 'active-area-row'
 
-        for (let j = 0; j < server.Probes.length; j++) {
-            const record = server.Probes[j]
+        servers.forEach(server => {
+            const activeAreaContaier = document.createElement('div')
+            activeAreaContaier.className = 'active-area-container'
+    
+            const activeAreaHeading = document.createElement('h1')
+            activeAreaHeading.textContent = server.IP + " " + server.Role
+    
+            const recordsContainer = document.createElement('div')
+            recordsContainer.className = 'records-container'
+    
+            for (let j = 0; j < server.Probes.length; j++) {
+                const record = server.Probes[j]
+    
+                const recordDiv = document.createElement('div')
+                recordDiv.className = 'record-div'
+    
+                const recordText = document.createElement('p')
+    
+                // if (record.domain === null) {
+                    // recordText.textContent = record.type
+                // } else {
+                    // recordText.textContent = record.domain + "/" + record.type
+                // }
+    
+                recordText.textContent = record.Name
+    
+                recordDiv.appendChild(recordText)
+    
+                recordsContainer.append(recordDiv)
+            }
+    
+            activeAreaContaier.appendChild(activeAreaHeading)
+            activeAreaContaier.appendChild(recordsContainer)
 
-            const recordDiv = document.createElement('div')
-            recordDiv.className = 'record-div'
+            row.appendChild(activeAreaContaier)
+        })
 
-            const recordText = document.createElement('p')
-
-            // if (record.domain === null) {
-                // recordText.textContent = record.type
-            // } else {
-                // recordText.textContent = record.domain + "/" + record.type
-            // }
-
-            recordText.textContent = record.Name
-
-            recordDiv.appendChild(recordText)
-
-            recordsContainer.append(recordDiv)
-        }
-
-        activeAreaContaier.appendChild(activeAreaHeading)
-        activeAreaContaier.appendChild(recordsContainer)
-
-        areaInfoContainer.appendChild(activeAreaContaier)
+        areaInfoContainer.appendChild(row)
     }
 
 }
