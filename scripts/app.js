@@ -1,68 +1,47 @@
 import { showTests } from "./tests/tests.js";
 import { showAreas } from "./areas/areas.js";
 
-import { mainInterval } from "./timer/timer.js";
+import { handleTimer } from "./timer/timer.js";
 
 import { getData } from "./data/get-data.js";
-import { newBlocks } from "../static/blocks/newBlocks.js";
-import { thirdBlocks } from "../static/blocks/thirdBlocks.js"
+import { getFromLocalStorage, saveToLocalStorage } from "./utils/localStorage.js";
 
-// Main Variables
 let counter = 0
 
-function saveToLocalStorage(blocks) {
-    localStorage.setItem("DATA", JSON.stringify(blocks))
-}
+const handleInterface = () => {
+    counter += 1
+    handleTimer()
 
-function getFromLocalStorage() {
-    return localStorage.getItem("DATA")
+    if (counter % 3 === 0) {
+        counter = 0
+        fetchZones()
+    }
 }
 
 async function fetchZones() {
-    const res = Math.floor(Math.random() * 4)
-
-    let data = JSON.parse(getFromLocalStorage())
-
-    if (!data) {
-        let data = await getData()
-        saveToLocalStorage(data)
-    }
-
-    // if (data) {
-    //     showTests(blocks)
-    //     showAreas(blocks)
-    // } else {
-    //     switch (res) {
-    //         case 0:
-    //             saveToLocalStorage(blocks)
-    //             showTests(blocks)
-    //             showAreas(blocks)
-    //             break;
-    //         case 1:
-    //             saveToLocalStorage(blocks)
-    //             showTests(secondBlocks)
-    //             showAreas(secondBlocks)
-    //             break;
-    //         case 2:
-    //             saveToLocalStorage(blocks)
-    //             showTests(thirdBlocks)
-    //             showAreas(thirdBlocks)
-    //             break;
-    //         case 3:
-    //             saveToLocalStorage(blocks)
-    //             showTests(forthBlocks)
-    //             showAreas(forthBlocks)
-    //             break;
-    //     }
-    // }
+    let data = await getData()
+    saveToLocalStorage(data)
 
     showTests(data)
-    showAreas(data)
+    showAreas(data)  
+
+    window.addEventListener('resize', () => {
+        console.log("RESIZE")
+        showAreas(data)})
+
+    // showTests(blocks)
+    // showAreas(blocks)
 
     return 0;
 }
 
-mainInterval()
+let data = JSON.parse(getFromLocalStorage())
 
-// setInterval(fetchZones, 1000)
+if (data) {
+    showTests(data)
+    showAreas(data)
+}
+
+// setInterval(handleInterface, 1000)
+
 fetchZones()

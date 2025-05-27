@@ -1,5 +1,14 @@
 import { newBlocks } from "../../static/blocks/newBlocks.js";
 
+
+const handleTimer = (counter) => {
+    const mainContentDiv = document.getElementsByClassName('main-content')[0]
+
+    const leftToRefresh = document.createElement("h2")
+
+    leftToRefresh.innerHTML = "Seconds left to refresh: " + counter
+}
+
 const buildSchedule = (blocks) => {
     const intervals = new Object()
     const schedule = {}
@@ -45,6 +54,4 @@ const mainInterval = () => setInterval(() => {
     if (counter >= 60) counter = 0;
 }, minInterval * 1000)
 
-
-
-export { mainInterval }
+export { handleTimer }

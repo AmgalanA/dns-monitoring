@@ -55,9 +55,21 @@ const showActiveArea = (blocks) => {
     const areaInfoContainer = document.getElementById('active-area-wrapper')
     areaInfoContainer.innerHTML = ''
 
-    for (let i = 0; i < activeAreaInfo.Parameters.length; i+=5) {
+    let numOfCols = 5
+    const screenWidth = window.innerWidth
+    console.log(screenWidth)
 
-        const servers = activeAreaInfo.Parameters.slice(i, i + 5)
+    if (screenWidth <= 1024) {
+        numOfCols = 2
+    } else if (screenWidth < 1750) {
+        numOfCols = 3
+    } else if (screenWidth <= 1920) {
+        numOfCols = 4
+    }
+
+    for (let i = 0; i < activeAreaInfo.Parameters.length; i+=numOfCols) {
+
+        const servers = activeAreaInfo.Parameters.slice(i, i + numOfCols)
 
         const row = document.createElement("div")
         row.className = 'active-area-row'

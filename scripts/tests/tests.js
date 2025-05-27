@@ -24,7 +24,7 @@ const showTests = (blocks) => {
             headingContainer.className = 'heading-container'
 
             const nsName = document.createElement('h2')
-            nsName.textContent = test.GeneralName
+            nsName.textContent = test.GeneralName || "N/A"
 
             const typeName = document.createElement('h3')
             typeName.textContent = test.ProbeName;
@@ -50,40 +50,40 @@ const showTests = (blocks) => {
             testDiv.appendChild(headingContainer)
             testDiv.appendChild(footerContainer)
 
-            lamp.addEventListener("click", () => {
-                if (testDiv.innerHTML === "") {
-                    testDiv.appendChild(headingContainer)
-                    testDiv.appendChild(footerContainer)
-                } else {
-                    const descriptionDiv = document.createElement("div")
-                    descriptionDiv.className = "description-container"
-                    let isAvailable = "доступен"
+            // lamp.addEventListener("click", () => {
+            //     if (testDiv.innerHTML === "") {
+            //         testDiv.appendChild(headingContainer)
+            //         testDiv.appendChild(footerContainer)
+            //     } else {
+            //         const descriptionDiv = document.createElement("div")
+            //         descriptionDiv.className = "description-container"
+            //         let isAvailable = "доступен"
 
-                    if (test.success !== true) {
-                        isAvailable = "недоступен"
-                    }
+            //         if (test.success !== true) {
+            //             isAvailable = "недоступен"
+            //         }
 
-                    const description = document.createElement("p")
+            //         const description = document.createElement("p")
 
-                    description.innerHTML = "Авторитативный сервер " + test.GeneralName + " c ip адресом " +
-                        test.ip + " " + isAvailable + " через " + test.ProbeName;
+            //         description.innerHTML = "Авторитативный сервер " + test.GeneralName + " c ip адресом " +
+            //             test.ip + " " + isAvailable + " через " + test.ProbeName;
 
-                    const turnBackImg = document.createElement("img")
-                    turnBackImg.src = "../../static/images/icon-left-turn.png"
-                    testDiv.innerHTML = ""
+            //         const turnBackImg = document.createElement("img")
+            //         turnBackImg.src = "../../static/images/icon-left-turn.png"
+            //         testDiv.innerHTML = ""
 
-                    turnBackImg.addEventListener("click", () => {
-                        testDiv.innerHTML = ""
-                        testDiv.appendChild(headingContainer)
-                        testDiv.appendChild(footerContainer)
-                    })
+            //         turnBackImg.addEventListener("click", () => {
+            //             testDiv.innerHTML = ""
+            //             testDiv.appendChild(headingContainer)
+            //             testDiv.appendChild(footerContainer)
+            //         })
 
-                    descriptionDiv.appendChild(description)
-                    descriptionDiv.appendChild(turnBackImg)
+            //         descriptionDiv.appendChild(description)
+            //         descriptionDiv.appendChild(turnBackImg)
 
-                    testDiv.appendChild(descriptionDiv)
-                }
-            })
+            //         testDiv.appendChild(descriptionDiv)
+            //     }
+            // })
 
             row.appendChild(testDiv)
         })

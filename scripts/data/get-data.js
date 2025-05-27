@@ -112,6 +112,11 @@ const getData = async () => {
         const domainData = tests.filter(test => test.DomainName === value)
 
         domainData.map(data => {
+
+            if (data.ServerIP[0] === "[") {
+                data.ServerIP = data.ServerIP.slice(1,data.ServerIP.length - 1)
+            }
+
             if (data.QueryType === "ns") {
                 data.Records.ns.map(ns => {
                     let newParameter = {

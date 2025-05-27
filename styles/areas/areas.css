@@ -50,8 +50,14 @@
     border: 5px dotted gray;
     padding: 0px 10px;
     margin-right: 15px;
-    width: 420px;
+    width: 450px;
 }
+
+@media (min-width: 1920px) {
+    #active-area-wrapper .active-area-container {
+        width: 420px;
+    }
+  }
 
 #active-area-wrapper .active-area-container .records-container {
     display: flex;

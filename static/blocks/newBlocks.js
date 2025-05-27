@@ -140,6 +140,26 @@ const newBlocks = {
                 },
                 "ip": "10.10.7.3",
                 "success": true
+            },
+            {
+                "GeneralName": "NS-77",
+                "ProbeName": "TCP",
+                "ProbeSource": {
+                    "Name": "NS tcp",
+                    "ID": "22-192843-26"
+                },
+                "ip": "10.10.7.31",
+                "success": true
+            },
+            {
+                "GeneralName": "NS-12",
+                "ProbeName": "AAAA",
+                "ProbeSource": {
+                    "Name": "NS aaaa",
+                    "ID": "22-192843-27"
+                },
+                "ip": "10.10.3.2",
+                "success": true
             }
         ]
     },
