@@ -19,15 +19,17 @@ const handleInterface = () => {
 }
 
 async function fetchZones() {
+    
     let data = await getData()
     saveToLocalStorage(data)
 
     showTests(data)
-    showAreas(data)  
+    showAreas(data)
 
     window.addEventListener('resize', () => {
-        console.log("RESIZE")
-        showAreas(data)})
+        showAreas(data)
+    }
+    )
 
     // showTests(blocks)
     // showAreas(blocks)
@@ -35,12 +37,12 @@ async function fetchZones() {
     return 0;
 }
 
-let data = JSON.parse(getFromLocalStorage())
+// let data = JSON.parse(getFromLocalStorage())
 
-if (data) {
-    showTests(data)
-    showAreas(data)
-}
+// if (data) {
+//     showTests(data)
+//     showAreas(data)
+// }
 
 // setInterval(handleInterface, 1000)
 

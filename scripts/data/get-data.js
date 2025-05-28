@@ -8,7 +8,6 @@ const getData = async () => {
     headers.set('Authorization', 'Basic ' + btoa(`${username}:${password}`))
 
     const url = `https://miem-dns-dev.iddb.ru//${secret_key}/all-statuses`
-
     const response = await fetch(url, {
         method: 'GET',
         headers: headers
@@ -44,6 +43,10 @@ const getData = async () => {
                         "success": true
                     }
 
+                    if (test.Protocol === "dot") {
+                        aBlock["ProbeName"] = aBlock["ProbeName"] + "-DoT"
+                    }
+
                     if (test.Error !== "") {
                         aBlock["success"] = false
                     }
@@ -64,6 +67,10 @@ const getData = async () => {
                         },
                         "ip": test.ServerIP,
                         "success": true
+                    }
+
+                    if (test.Protocol === "dot") {
+                        nsBlock["ProbeName"] = nsBlock["ProbeName"] + "-DoT"
                     }
 
                     if (test.Error !== "") {
@@ -87,6 +94,10 @@ const getData = async () => {
                     "success": true
                 }
 
+                if (test.Protocol === "dot") {
+                    soaBlock["ProbeName"] = soaBlock["ProbeName"] + "-DoT"
+                }
+
                 if (test.Error !== "") {
                     soaBlock["success"] = false
                 }
@@ -94,6 +105,31 @@ const getData = async () => {
                 jsonBlock["TopBlock"]["Parameters"].push(soaBlock)
 
                 break
+            case "cert":
+                console.log("TEST: ", test)
+                var certBlock = {}
+
+                const records = test.Records.dns_names
+
+                records.map(record => {
+                    certBlock = {
+                        "GeneralName": record,
+                        "ProbeName": "Cert",
+                        "ProbeSource": {
+                            "Name": "NS Cert",
+                            "ID": test.TestID
+                        },
+                        "ip": test.ServerIP,
+                        "success": true
+                    }
+
+                    if (test.Error !== "") {
+                        certBlock["success"] = false
+                    }
+
+                    jsonBlock["TopBlock"]["Parameters"].push(certBlock)
+                })
+
             default:
                 break;
         }
@@ -101,6 +137,7 @@ const getData = async () => {
             domains.add(test.DomainName)
         }
     })
+    let servers = {}
 
     domains.values().forEach(value => {
         let section = {}
@@ -114,11 +151,16 @@ const getData = async () => {
         domainData.map(data => {
 
             if (data.ServerIP[0] === "[") {
-                data.ServerIP = data.ServerIP.slice(1,data.ServerIP.length - 1)
+                data.ServerIP = data.ServerIP.slice(1, data.ServerIP.length - 1)
+            }
+
+            if (!Object.keys(servers).includes(data.ServerIP)) {
+                servers[data.ServerIP] = []
             }
 
             if (data.QueryType === "ns") {
                 data.Records.ns.map(ns => {
+
                     let newParameter = {
                         "GeneralName": ns,
                         "IP": data.ServerIP,
@@ -133,7 +175,7 @@ const getData = async () => {
                         }]
                     }
 
-                    section["Parameters"].push(newParameter)
+                    servers[data.ServerIP].push(newParameter)
                 })
             }
 
@@ -153,7 +195,7 @@ const getData = async () => {
                         }]
                     }
 
-                    section["Parameters"].push(newParameter)
+                    servers[data.ServerIP].push(newParameter)
                 })
             }
 
@@ -177,11 +219,38 @@ const getData = async () => {
                         }
                     }]
                 }
-                
-                section["Parameters"].push(newParameter)
+
+                servers[data.ServerIP].push(newParameter)
             }
 
-            console.log(data)
+            Object.keys(servers).map((key) => {
+
+                const probesData = servers[key]
+                probesData.map(probeData => {
+
+                    const probe = {
+                        "Name": probeData.Probes[0].Name,
+                        "ProbeSource": probeData.Probes[0].ProbeSource
+                    }
+
+                    if (section["Parameters"].length === 0) {
+                        section["Parameters"].push(probeData)
+                    }
+                    else if (!section["Parameters"].map(param => param.IP).includes(probeData.IP)) {
+                        section["Parameters"].push(probeData)
+                    }
+                    else {
+                        section["Parameters"].map((param, index) => {
+                            if (param.IP === probeData.IP) {
+                                section["Parameters"][index]["Probes"].push(probe)
+                            }
+                        })
+                    }
+
+                })
+
+            })
+
         })
 
         jsonBlock["MainBlock"]["Sections"].push(section)

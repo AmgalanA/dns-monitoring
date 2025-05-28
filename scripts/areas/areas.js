@@ -1,4 +1,4 @@
-
+import { shuffle } from "../utils/shuffle.js"
 
 const showAreas = (blocks) => {
     const areasContainer = document.getElementById('areas-container')
@@ -57,7 +57,6 @@ const showActiveArea = (blocks) => {
 
     let numOfCols = 5
     const screenWidth = window.innerWidth
-    console.log(screenWidth)
 
     if (screenWidth <= 1024) {
         numOfCols = 2
@@ -66,6 +65,8 @@ const showActiveArea = (blocks) => {
     } else if (screenWidth <= 1920) {
         numOfCols = 4
     }
+
+    activeAreaInfo.Parameters = activeAreaInfo.Parameters.slice(0, 10)
 
     for (let i = 0; i < activeAreaInfo.Parameters.length; i+=numOfCols) {
 
@@ -83,6 +84,8 @@ const showActiveArea = (blocks) => {
     
             const recordsContainer = document.createElement('div')
             recordsContainer.className = 'records-container'
+
+            server.Probes = shuffle(server.Probes.slice(0, 10))
     
             for (let j = 0; j < server.Probes.length; j++) {
                 const record = server.Probes[j]

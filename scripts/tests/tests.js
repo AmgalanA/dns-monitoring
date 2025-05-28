@@ -1,8 +1,9 @@
+import { shuffle } from "../utils/shuffle.js";
 
 const showTests = (blocks) => {
     const testsContainer = document.getElementById('tests-container')
     testsContainer.innerHTML = '';
-    const tests = blocks.TopBlock.Parameters
+    const tests = shuffle(blocks.TopBlock.Parameters).slice(0, 10)
 
     for (let i = 0; i < tests.length; i += 5) {
         const row = document.createElement('div')
