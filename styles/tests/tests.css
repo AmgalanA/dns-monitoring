@@ -22,15 +22,21 @@
 }
 
 .test-div .heading-container {
-    margin: 0 25px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 60px;
+    width: 100%;
 }
 
 .test-div .heading-container h3 {
-    font-size: 30px;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.test-div .heading-container h2 {
+    font-size: 20px;
+    margin-left: 10px;
 }
 
 .test-div p {
@@ -42,13 +48,17 @@
     display: flex;
     align-items: center;
     margin-top: 4px;
-    margin-left: 25px;
+    margin-left: 10px;
     margin-right: 25px;
     justify-content: space-between;
 }
 
+.test-div .footer-container p {
+    font-size: 20px;
+}
+
 .lamp {
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .test-div .description-container {

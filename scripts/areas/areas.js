@@ -1,5 +1,7 @@
 import { shuffle } from "../utils/shuffle.js"
 
+let flag = false
+
 const showAreas = (blocks) => {
     const areasContainer = document.getElementById('areas-container')
     areasContainer.innerHTML = ''
@@ -66,9 +68,9 @@ const showActiveArea = (blocks) => {
         numOfCols = 4
     }
 
-    activeAreaInfo.Parameters = activeAreaInfo.Parameters.slice(0, 10)
+    // activeAreaInfo.Parameters = shuffle(activeAreaInfo.Parameters).slice(0, 15)
 
-    for (let i = 0; i < activeAreaInfo.Parameters.length; i+=numOfCols) {
+    for (let i = 0; i < activeAreaInfo.Parameters.length; i += numOfCols) {
 
         const servers = activeAreaInfo.Parameters.slice(i, i + numOfCols)
 
@@ -78,36 +80,40 @@ const showActiveArea = (blocks) => {
         servers.forEach(server => {
             const activeAreaContaier = document.createElement('div')
             activeAreaContaier.className = 'active-area-container'
-    
+
             const activeAreaHeading = document.createElement('h1')
             activeAreaHeading.textContent = server.IP + " " + server.Role
-    
+
             const recordsContainer = document.createElement('div')
             recordsContainer.className = 'records-container'
 
-            server.Probes = shuffle(server.Probes.slice(0, 10))
-    
+            server.Probes = shuffle(server.Probes).slice(0, 15)
+
             for (let j = 0; j < server.Probes.length; j++) {
                 const record = server.Probes[j]
-    
+
                 const recordDiv = document.createElement('div')
                 recordDiv.className = 'record-div'
-    
+
                 const recordText = document.createElement('p')
-    
+
                 // if (record.domain === null) {
-                    // recordText.textContent = record.type
+                // recordText.textContent = record.type
                 // } else {
-                    // recordText.textContent = record.domain + "/" + record.type
+                // recordText.textContent = record.domain + "/" + record.type
                 // }
-    
-                recordText.textContent = record.Name
-    
-                recordDiv.appendChild(recordText)
-    
-                recordsContainer.append(recordDiv)
+
+                if (record.Name === "SOA" && !flag) {
+                    flag = true
+                } else {
+                    recordText.textContent = record.Name
+
+                    recordDiv.appendChild(recordText)
+
+                    recordsContainer.append(recordDiv)
+                }
             }
-    
+
             activeAreaContaier.appendChild(activeAreaHeading)
             activeAreaContaier.appendChild(recordsContainer)
 

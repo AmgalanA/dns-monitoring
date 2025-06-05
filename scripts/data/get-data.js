@@ -43,9 +43,12 @@ const getData = async () => {
                         "success": true
                     }
 
-                    if (test.Protocol === "dot") {
-                        aBlock["ProbeName"] = aBlock["ProbeName"] + "-DoT"
-                    }
+                    // if (test.Protocol === "dot") {
+                    //     aBlock["ProbeName"] = aBlock["ProbeName"] + "-DoT"
+                    // }
+
+                    aBlock["ProbeName"] = aBlock["ProbeName"] + "-" + test.Protocol
+
 
                     if (test.Error !== "") {
                         aBlock["success"] = false
@@ -69,9 +72,10 @@ const getData = async () => {
                         "success": true
                     }
 
-                    if (test.Protocol === "dot") {
-                        nsBlock["ProbeName"] = nsBlock["ProbeName"] + "-DoT"
-                    }
+                    // if (test.Protocol === "dot") {
+                    // nsBlock["ProbeName"] = nsBlock["ProbeName"] + "-DoT"
+                    // }
+                    nsBlock["ProbeName"] = nsBlock["ProbeName"] + "-" + test.Protocol
 
                     if (test.Error !== "") {
                         nsBlock["success"] = false
@@ -94,9 +98,11 @@ const getData = async () => {
                     "success": true
                 }
 
-                if (test.Protocol === "dot") {
-                    soaBlock["ProbeName"] = soaBlock["ProbeName"] + "-DoT"
-                }
+                // if (test.Protocol === "dot") {
+                //     soaBlock["ProbeName"] = soaBlock["ProbeName"] + "-DoT"
+                // }
+
+                soaBlock["ProbeName"] = soaBlock["ProbeName"] + "-" + test.Protocol
 
                 if (test.Error !== "") {
                     soaBlock["success"] = false
@@ -106,7 +112,6 @@ const getData = async () => {
 
                 break
             case "cert":
-                console.log("TEST: ", test)
                 var certBlock = {}
 
                 const records = test.Records.dns_names
@@ -160,7 +165,6 @@ const getData = async () => {
 
             if (data.QueryType === "ns") {
                 data.Records.ns.map(ns => {
-
                     let newParameter = {
                         "GeneralName": ns,
                         "IP": data.ServerIP,
@@ -181,21 +185,24 @@ const getData = async () => {
 
             if (data.QueryType === "a") {
                 data.Records.a.map(a => {
-                    let newParameter = {
-                        "GeneralName": a,
-                        "IP": data.ServerIP,
-                        "Role": "",
-                        "Probes": [{
-                            "Name": "A: " + a,
-                            "ProbeSource": {
-                                "Name": a,
-                                "ID": data.TestID,
-                                "interval": data.Interval || "5"
-                            }
-                        }]
+                    if (!servers[data.ServerIP].map(param => param.GeneralName).includes(a)) {
+                        let newParameter = {
+                            "GeneralName": a,
+                            "IP": data.ServerIP,
+                            "Role": "",
+                            "Probes": [{
+                                "Name": "A: " + a,
+                                "ProbeSource": {
+                                    "Name": a,
+                                    "ID": data.TestID,
+                                    "interval": data.Interval || "5"
+                                }
+                            }]
+                        }
+    
+                        servers[data.ServerIP].push(newParameter)
                     }
 
-                    servers[data.ServerIP].push(newParameter)
                 })
             }
 
@@ -221,6 +228,26 @@ const getData = async () => {
                 }
 
                 servers[data.ServerIP].push(newParameter)
+            }
+
+            if (data.QueryType === "cert") {
+                data.Records.dns_names.map(dns_name => {
+                    let newParameter = {
+                        "GeneralName": dns_name,
+                        "IP": data.ServerIP,
+                        "Role": "",
+                        "Probes": [{
+                            "Name": "Cert - " + dns_name,
+                            "ProbeSource": {
+                                "Name": dns_name,
+                                "ID": data.TestID,
+                                "interval": data.Interval || "5"
+                            }
+                        }]
+                    }
+
+                    servers[data.ServerIP].push(newParameter)
+                })
             }
 
             Object.keys(servers).map((key) => {

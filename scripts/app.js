@@ -28,8 +28,7 @@ async function fetchZones() {
 
     window.addEventListener('resize', () => {
         showAreas(data)
-    }
-    )
+    })
 
     // showTests(blocks)
     // showAreas(blocks)
