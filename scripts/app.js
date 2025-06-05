@@ -17,7 +17,10 @@ const handleInterface = () => {
         fetchZones()
     }
 }
-
+/**
+ * Асинхронно получает данные, сохраняет их в локальное хранилище и отображает тесты и области
+ * @returns {Promise<number>} Число 0 после успешного выполнения
+ */
 async function fetchZones() {
     
     let data = await getData()

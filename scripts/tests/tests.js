@@ -1,5 +1,10 @@
 import { shuffle } from "../utils/shuffle.js";
 
+/**
+ * Отображает до 10 тестов в HTML-контейнере с идентификатором 'tests-container', группируя их по 5 в строке
+ * @param {Object} blocks - Объект с данными, содержащий TopBlock с параметрами тестов
+ * @returns {void} Ничего не возвращает
+ */
 const showTests = (blocks) => {
     const testsContainer = document.getElementById('tests-container')
     testsContainer.innerHTML = '';
@@ -8,9 +13,9 @@ const showTests = (blocks) => {
     for (let i = 0; i < tests.length; i += 5) {
         const row = document.createElement('div')
         row.className = 'row'
-
+        
         let rowOfTests = tests.slice(i, i + 5)
-
+        
         rowOfTests.forEach(test => {
             const testDiv = document.createElement('div');
             testDiv.className = 'test-div';
@@ -90,6 +95,7 @@ const showTests = (blocks) => {
         })
 
         testsContainer.appendChild(row)
+
     }
 }
 

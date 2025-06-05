@@ -1,7 +1,13 @@
+import { makeJSONUnique } from "../utils/makeJSONUnique.js"
 import { shuffle } from "../utils/shuffle.js"
 
 let flag = false
 
+/**
+ * Отображает области в HTML-контейнере с идентификатором 'areas-container' и активирует обработчики кликов
+ * @param {Object} blocks - Объект с данными, содержащий MainBlock с секциями
+ * @returns {boolean} Возвращает true после успешного выполнения
+ */
 const showAreas = (blocks) => {
     const areasContainer = document.getElementById('areas-container')
     areasContainer.innerHTML = ''
@@ -39,8 +45,16 @@ const showAreas = (blocks) => {
         areasContainer.appendChild(areaDiv)
     }
     showActiveArea(blocks)
+
+    return true
 }
 
+/**
+ * Находит информацию об области по её имени
+ * @param {string} name - Имя области
+ * @param {Object} blocks - Объект с данными, содержащий MainBlock с секциями
+ * @returns {Object|undefined} Объект области или undefined, если область не найдена
+ */
 const getAreaInfoByName = (name, blocks) => {
     for (let i = 0; i < blocks.MainBlock.Sections.length; i++) {
         if (name === blocks.MainBlock.Sections[i].GeneralName) {
@@ -49,6 +63,11 @@ const getAreaInfoByName = (name, blocks) => {
     }
 }
 
+/**
+ * Отображает информацию об активной области в HTML-контейнере с идентификатором 'active-area-wrapper'
+ * @param {Object} blocks - Объект с данными, содержащий MainBlock с секциями
+ * @returns {void} Ничего не возвращает
+ */
 const showActiveArea = (blocks) => {
     const activeAreaDiv = document.getElementById('area-active')
 
@@ -87,7 +106,7 @@ const showActiveArea = (blocks) => {
             const recordsContainer = document.createElement('div')
             recordsContainer.className = 'records-container'
 
-            server.Probes = shuffle(server.Probes).slice(0, 15)
+            server.Probes = shuffle(makeJSONUnique(server.Probes)).slice(0, 15)
 
             for (let j = 0; j < server.Probes.length; j++) {
                 const record = server.Probes[j]

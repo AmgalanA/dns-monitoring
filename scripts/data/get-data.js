@@ -1,4 +1,7 @@
-
+/**
+ * Асинхронно получает данные о DNS-тестах с сервера и формирует структурированный JSON-объект
+ * @returns {Promise<Object>} Объект с данными тестов, содержащий TopBlock и MainBlock
+ */
 const getData = async () => {
     const secret_key = "secret-key"
     const username = "username"

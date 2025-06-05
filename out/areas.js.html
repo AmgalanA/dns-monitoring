@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: areas.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: areas.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { makeJSONUnique } from "../utils/makeJSONUnique.js"
+import { shuffle } from "../utils/shuffle.js"
+
+let flag = false
+
+/**
+ * Отображает области в HTML-контейнере с идентификатором 'areas-container' и активирует обработчики кликов
+ * @param {Object} blocks - Объект с данными, содержащий MainBlock с секциями
+ * @returns {boolean} Возвращает true после успешного выполнения
+ */
+const showAreas = (blocks) => {
+    const areasContainer = document.getElementById('areas-container')
+    areasContainer.innerHTML = ''
+
+    for (let i = 0; i &lt; blocks.MainBlock.Sections.length; i++) {
+        const area = blocks.MainBlock.Sections[i]
+
+        const areaDiv = document.createElement('div')
+        areaDiv.className = 'area-div'
+
+        if (i === 0) {
+            areaDiv.id = 'area-active'
+        }
+
+        if (i === blocks.MainBlock.Sections.length - 1 &amp;&amp; i !== 0) {
+            areaDiv.id = 'area-last'
+        }
+
+        const areaHeading = document.createElement('h2')
+        areaHeading.textContent = area.GeneralName
+
+        areaDiv.appendChild(areaHeading)
+
+        areaDiv.addEventListener('click', () => {
+            const active = document.getElementById('area-active')
+            active.removeAttribute('id')
+
+            areaDiv.id = 'area-active'
+
+            localStorage.setItem('active-zone', areaDiv.textContent)
+
+            showActiveArea(blocks)
+        })
+
+        areasContainer.appendChild(areaDiv)
+    }
+    showActiveArea(blocks)
+
+    return true
+}
+
+/**
+ * Находит информацию об области по её имени
+ * @param {string} name - Имя области
+ * @param {Object} blocks - Объект с данными, содержащий MainBlock с секциями
+ * @returns {Object|undefined} Объект области или undefined, если область не найдена
+ */
+const getAreaInfoByName = (name, blocks) => {
+    for (let i = 0; i &lt; blocks.MainBlock.Sections.length; i++) {
+        if (name === blocks.MainBlock.Sections[i].GeneralName) {
+            return blocks.MainBlock.Sections[i]
+        }
+    }
+}
+
+/**
+ * Отображает информацию об активной области в HTML-контейнере с идентификатором 'active-area-wrapper'
+ * @param {Object} blocks - Объект с данными, содержащий MainBlock с секциями
+ * @returns {void} Ничего не возвращает
+ */
+const showActiveArea = (blocks) => {
+    const activeAreaDiv = document.getElementById('area-active')
+
+    const activeAreaInfo = getAreaInfoByName(activeAreaDiv.textContent, blocks)
+
+    const areaInfoContainer = document.getElementById('active-area-wrapper')
+    areaInfoContainer.innerHTML = ''
+
+    let numOfCols = 5
+    const screenWidth = window.innerWidth
+
+    if (screenWidth &lt;= 1024) {
+        numOfCols = 2
+    } else if (screenWidth &lt; 1750) {
+        numOfCols = 3
+    } else if (screenWidth &lt;= 1920) {
+        numOfCols = 4
+    }
+
+    // activeAreaInfo.Parameters = shuffle(activeAreaInfo.Parameters).slice(0, 15)
+
+    for (let i = 0; i &lt; activeAreaInfo.Parameters.length; i += numOfCols) {
+
+        const servers = activeAreaInfo.Parameters.slice(i, i + numOfCols)
+
+        const row = document.createElement("div")
+        row.className = 'active-area-row'
+
+        servers.forEach(server => {
+            const activeAreaContaier = document.createElement('div')
+            activeAreaContaier.className = 'active-area-container'
+
+            const activeAreaHeading = document.createElement('h1')
+            activeAreaHeading.textContent = server.IP + " " + server.Role
+
+            const recordsContainer = document.createElement('div')
+            recordsContainer.className = 'records-container'
+
+            server.Probes = shuffle(makeJSONUnique(server.Probes)).slice(0, 15)
+
+            for (let j = 0; j &lt; server.Probes.length; j++) {
+                const record = server.Probes[j]
+
+                const recordDiv = document.createElement('div')
+                recordDiv.className = 'record-div'
+
+                const recordText = document.createElement('p')
+
+                // if (record.domain === null) {
+                // recordText.textContent = record.type
+                // } else {
+                // recordText.textContent = record.domain + "/" + record.type
+                // }
+
+                if (record.Name === "SOA" &amp;&amp; !flag) {
+                    flag = true
+                } else {
+                    recordText.textContent = record.Name
+
+                    recordDiv.appendChild(recordText)
+
+                    recordsContainer.append(recordDiv)
+                }
+            }
+
+            activeAreaContaier.appendChild(activeAreaHeading)
+            activeAreaContaier.appendChild(recordsContainer)
+
+            row.appendChild(activeAreaContaier)
+        })
+
+        areaInfoContainer.appendChild(row)
+    }
+
+}
+
+export { showAreas }</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getAreaInfoByName">getAreaInfoByName</a></li><li><a href="global.html#showActiveArea">showActiveArea</a></li><li><a href="global.html#showAreas">showAreas</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Jun 05 2025 15:30:07 GMT+0300 (Москва, стандартное время)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
