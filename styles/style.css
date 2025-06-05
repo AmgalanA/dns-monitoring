@@ -101,7 +101,7 @@ h1 {
 
 .domain-card .card-header-container {
   display: flex;
-  align-items: center;  
+  align-items: center;
   color: #3498DB;
   border-bottom: 2px solid #3498DB;
   gap: 8px;
@@ -180,4 +180,37 @@ h1 {
   text-align: center;
   color: #B0BEC5;
   font-size: 14px;
+}
+
+/* LOADER */
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  background-color: #1E1E1E;
+}
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

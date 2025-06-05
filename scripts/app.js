@@ -17,12 +17,13 @@ const handleInterface = () => {
         fetchZones()
     }
 }
+
+
 /**
  * Асинхронно получает данные, сохраняет их в локальное хранилище и отображает тесты и области
  * @returns {Promise<number>} Число 0 после успешного выполнения
  */
 async function fetchZones() {
-    
     let data = await getData()
     saveToLocalStorage(data)
 
@@ -35,16 +36,44 @@ async function fetchZones() {
 
     // showTests(blocks)
     // showAreas(blocks)
-
+    
     return 0;
 }
 
-// let data = JSON.parse(getFromLocalStorage())
+const refreshButton = document.getElementById("refresh-button")
 
-// if (data) {
-//     showTests(data)
-//     showAreas(data)
-// }
+refreshButton.addEventListener('click', () => {
+    const monitoringDiv = document.getElementById('monitoring')
+    const testsContainer = document.getElementById('tests-container')
+    const areasContainer = document.getElementById('areas-container')
+    const activeAreaWrapper = document.getElementById('active-area-wrapper')
+    
+    testsContainer.innerHTML = ''
+    areasContainer.innerHTML = ''
+    activeAreaWrapper.innerHTML = ''
+
+    const loaderContainer = document.createElement('div')
+    loaderContainer.className = 'loader-container'
+
+    const loader = document.createElement('div')
+    loader.className = 'loader'
+
+    loaderContainer.appendChild(loader)
+    monitoringDiv.appendChild(loaderContainer)
+
+    setTimeout(() => {
+        loaderContainer.classList.add('hidden');
+        fetchZones()
+    }, 1000);
+    
+})
+
+let data = JSON.parse(getFromLocalStorage())
+
+if (data) {
+    showTests(data)
+    showAreas(data)
+}
 
 // setInterval(handleInterface, 1000)
 
