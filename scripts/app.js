@@ -12,12 +12,11 @@ const handleInterface = () => {
     counter += 1
     handleTimer()
 
-    if (counter % 3 === 0) {
+    if (counter % 2 === 0) {
         counter = 0
         fetchZones()
     }
 }
-
 
 /**
  * Асинхронно получает данные, сохраняет их в локальное хранилище и отображает тесты и области
@@ -75,6 +74,6 @@ if (data) {
     showAreas(data)
 }
 
-// setInterval(handleInterface, 1000)
+setInterval(handleInterface, 1000)
 
-fetchZones()
+// fetchZones()

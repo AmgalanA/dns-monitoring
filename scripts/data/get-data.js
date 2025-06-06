@@ -147,7 +147,11 @@ const getData = async () => {
     })
     let servers = {}
 
-    domains.values().forEach(value => {
+    let domainValues = [] 
+    domains.values().forEach(value => domainValues.push(value))
+    domainValues.sort()
+
+    domainValues.forEach(value => {
         let section = {}
 
         section["GeneralName"] = value
