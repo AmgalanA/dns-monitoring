@@ -21,8 +21,11 @@ const showAreas = (blocks) => {
         areaDiv.className = 'area-div'
 
         if (area.GeneralName === activeAreaFromLS) {
-            areaDiv.id = 'area-active'
-
+            
+            const areaInfoContainer = document.getElementById('active-area-wrapper')
+            if (areaInfoContainer.innerHTML !== '' && areaInfoContainer.innerHTML.length !== 9) {
+                areaDiv.id = 'area-active'
+            }
         }
 
         // if (i === 0) {
@@ -38,11 +41,9 @@ const showAreas = (blocks) => {
 
         areaDiv.appendChild(areaHeading)
 
-        showArea(area)
-
         areaDiv.addEventListener('click', () => {
             const active = document.getElementById('area-active')
-            
+
             if (active) {
                 active.removeAttribute('id')
             }

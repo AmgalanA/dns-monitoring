@@ -3,7 +3,7 @@ import { showAreas } from "./areas/areas.js";
 
 import { handleTimer } from "./timer/timer.js";
 
-import { getData } from "./data/get-data.js";
+import { newGetData } from "./data/get-data.js";
 import { getFromLocalStorage, saveToLocalStorage } from "./utils/localStorage.js";
 
 let counter = 0
@@ -23,7 +23,7 @@ const handleInterface = () => {
  * @returns {Promise<number>} Число 0 после успешного выполнения
  */
 async function fetchZones() {
-    let data = await getData()
+    let data = await newGetData()
     saveToLocalStorage(data)
 
     showTests(data)
